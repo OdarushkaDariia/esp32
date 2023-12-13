@@ -3,6 +3,7 @@
 #include <SPI.h>               // NFC
 #include <MFRC522.h>
 
+
 #define SS_PIN 5               // NFC RFID
 #define RST_PIN 0
 #define BTN_1_PIN 27           // Buttons pins button2
@@ -47,7 +48,7 @@ void setup() {
     light(LED_GREEN);
     delay(1000);
     
-    //connect_to_WIFI();
+    connect_to_WIFI();
 }
 
 void loop() {
@@ -68,7 +69,7 @@ void loop() {
     free(message);
     delay(3000);
     lcd_clear();
- 
+
   }
 }
 

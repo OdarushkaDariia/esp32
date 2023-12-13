@@ -21,17 +21,31 @@ const char* password = "37909741";  // password
 
 void connect_to_WIFI()
 {
+    //WiFi.begin(ssid, password);
+    // while (WiFi.status() != WL_CONNECTED) {
+    //     Serial.print(".");
+    //     delay(500);
+    // }
+    //  Serial.print(WiFi.status()); 
+    // lcd_clear();
+    // lcd_print_at(6, 0, "WiFi: Redmi Note 11 Pro");
+    // Serial.print("Connected to ");
+    // Serial.println(ssid);
+    // Serial.print("IP Address: ");
+    // Serial.println(WiFi.localIP());
+    delay(1000);
+
+    WiFi.mode(WIFI_STA); //Optional
     WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
+    Serial.println("\nConnecting");
+
+    while(WiFi.status() != WL_CONNECTED){
         Serial.print(".");
-        delay(500);
+        delay(100);
     }
-        
-    lcd_clear();
-    lcd_print_at(6, 0, "WiFi: Redmi Note 11 Pro");
-    Serial.print("Connected to ");
-    Serial.println(ssid);
-    Serial.print("IP Address: ");
+
+    Serial.println("\nConnected to the WiFi network");
+    Serial.print("Local ESP32 IP: ");
     Serial.println(WiFi.localIP());
 }
 
@@ -49,6 +63,7 @@ String getPath_nfc(String card_ID){
 
 bool request(String type, String text)
 {
+    
     if(WiFi.status()== WL_CONNECTED)
     {
         HTTPClient http;
@@ -64,12 +79,15 @@ bool request(String type, String text)
             path = getPath_pin(text);
             Serial.print("PIN: ");
             Serial.println(text);
+            Serial.print(path);
+
         }
         if (type == "nfc")
         {
             path = getPath_nfc(text);
             Serial.print("NFC: ");
             Serial.println(text);
+            Serial.print(path);
         }
         http.begin(path.c_str());
         int httpResponseCode = http.GET();
